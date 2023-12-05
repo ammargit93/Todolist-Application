@@ -1,0 +1,15 @@
+venv
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+__pycache__/
