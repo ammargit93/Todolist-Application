@@ -36,7 +36,6 @@ class Task:
         file.close()
 
     def view(self):
-        i = 3
         self.task_list = []
         with open("task.json", "r") as file:
             data = json.load(file)
@@ -46,7 +45,6 @@ class Task:
             else:
                 val["checkbox"] = "done"
             self.task_list.append(str(val["id"]) + " ." + val["text"] + "    |" + str(val["checkbox"]))
-            i += 1
         file.close()
 
     def clear_all(self):

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tasks import Task
-
+import smtplib
+from tkinter import messagebox
 
 class Menu:
     def __init__(self, w):
@@ -21,6 +22,11 @@ class Menu:
 
         self.button5 = tk.Button(text="Clear All", height=5, width=25, command=self.on_button5_click)
         self.button5.grid(row=4, column=0, padx=20, pady=20, sticky="w")
+
+        self.email_button = tk.Button(text="Save to email", height=3, width=10, command=self.save_to_email)
+        self.email_button.place(x=410,y=550)
+
+        self.submit_email = tk.Button(text="save", height=1, width=5, command=self.submit_email)
 
     def on_button1_click(self):
         l = tk.Label(text="Add a Task ")
@@ -69,3 +75,35 @@ class Menu:
         id = int(self.input.get())
         task = Task()
         task.update_task(id)
+
+    def save_to_email(self):
+        email_label = tk.Label(text="email")
+        email_label.place(x=510, y=550)
+        self.email = tk.Entry(width=20)
+        self.email.place(x=565, y=550)
+
+        password_label = tk.Label(text="password")
+        password_label.place(x=510, y=580)
+
+        self.password = tk.Entry(width=20)
+        self.password.place(x=565, y=580)
+
+        self.submit_email.place(x=600,y=610)
+
+    def submit_email(self):
+        task = Task()
+        task.view()
+        message = ""
+        for item in task.task_list:
+            item = item.replace("\n","")
+            message += item+"\n"
+        if self.email.get() == "" or self.password.get() == "":
+            messagebox.showwarning("field is empty", "Please fill all the fields before submitting")
+        else:
+            with smtplib.SMTP("smtp.gmail.com") as connection:
+                connection.starttls()
+                connection.login(user=self.email.get(), password=self.password.get())
+                connection.sendmail(
+                    from_addr=self.email.get(),
+                    to_addrs="ammar.ice98@gmail.com",
+                    msg=message)
